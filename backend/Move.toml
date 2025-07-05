@@ -1,0 +1,18 @@
+[package]
+name = "minterra"
+version = "1.0.0"
+authors = []
+
+[addresses]
+addr = "0xfd9a0dabf918baa54ffac27d2c545ce26b5e552f7acc0571b600eb98bc1fc647"
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-framework.git"
+rev = "devnet"  # Use devnet framework if targeting devnet
+subdir = "aptos-framework"
+
+# Optional - include if you're using AptosStdlib or MoveStdlib directly
+#[dependencies.AptosStdlib]
+#git = "https://github.com/aptos-labs/aptos-core.git"
+#rev = "devnet"
+#subdir = "aptos-stdlib"
