@@ -11,8 +11,10 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const MODULE_ADDRESS = "0xfd9a0dabf918baa54ffac27d2c545ce26b5e552f7acc0571b600eb98bc1fc647";
-const MODULE_NAME = "registry";
+// ✅ Environment variables
+const NODE_URL = import.meta.env.VITE_NODE_URL;
+const MODULE_ADDRESS = import.meta.env.VITE_MODULE_ADDRESS;
+const MODULE_NAME = import.meta.env.VITE_MODULE_NAME;
 const RESOURCE_NAME = "Resume";
 
 const encodeVector = (str) => Array.from(new TextEncoder().encode(str));
@@ -52,7 +54,7 @@ export default function CredentialForm() {
 
   const checkIfAccountInitialized = async (addr) => {
     try {
-      const resourceUrl = `https://fullnode.mainnet.aptoslabs.com/v1/accounts/${addr}/resource/${MODULE_ADDRESS}::${MODULE_NAME}::${RESOURCE_NAME}`;
+      const resourceUrl = `${NODE_URL}/v1/accounts/${addr}/resource/${MODULE_ADDRESS}::${MODULE_NAME}::${RESOURCE_NAME}`;
       const response = await fetch(resourceUrl);
       if (response.status === 404) return false;
       const data = await response.json();

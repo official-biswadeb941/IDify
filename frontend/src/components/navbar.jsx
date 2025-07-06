@@ -63,7 +63,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/">MyBrand</Link>
+        <Link to="/">IDify</Link>
       </div>
 
       <div className={`navbar-links ${open ? 'active' : ''}`}>
