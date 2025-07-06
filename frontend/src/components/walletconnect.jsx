@@ -37,7 +37,6 @@ export default function WalletConnect() {
         {error && <p className="mt-2 text-red-600 text-sm">{error}</p>}
       </div>
       <div>
-<CredentialForm _account={account}/>
       </div>
     </div>
   );

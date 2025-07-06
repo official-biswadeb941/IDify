@@ -1,4 +1,4 @@
-module addr::registry {
+module addr::registry_v2 {
     use std::vector;
     use std::signer;
     use std::timestamp;

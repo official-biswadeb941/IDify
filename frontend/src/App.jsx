@@ -4,17 +4,34 @@ import Home from "./Pages/home";
 import Issue from "./Pages/Issue";
 import Profile from "./Pages/profile";
 import Navbar from "./components/navbar";
+import { useWallet } from "./components/walletcontext";
 
 function App() {
+  const {
+    account,
+    isConnecting,
+    error,
+    connectWallet,
+    disconnectWallet,
+  } = useWallet();
+
+  const walletProps = {
+    account,
+    isConnecting,
+    error,
+    connectWallet,
+    disconnectWallet,
+  };
+
   return (
     <Router>
       <div className="app-wrapper">
-        <Navbar />
+        <Navbar {...walletProps} />
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/issue" element={<Issue />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/" element={<Home {...walletProps} />} />
+            <Route path="/issue" element={<Issue {...walletProps} />} />
+            <Route path="/profile" element={<Profile {...walletProps} />} />
           </Routes>
         </main>
       </div>
