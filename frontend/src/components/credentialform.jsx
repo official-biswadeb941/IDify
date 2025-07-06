@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const MODULE_ADDRESS = "0xfd9a0dabf918baa54ffac27d2c545ce26b5e552f7acc0571b600eb98bc1fc647";
 const MODULE_NAME = "registry";
@@ -24,8 +25,8 @@ export default function CredentialForm() {
   const [institute, setInstitute] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
-  const [issuedCredentials, setIssuedCredentials] = useState([]);
   const [resumeInitialized, setResumeInitialized] = useState(false);
+  const [issuedCredentials, setIssuedCredentials] = useState([]);
 
   const isFormComplete = recipient && name && title && institute;
 
@@ -91,7 +92,6 @@ export default function CredentialForm() {
       return;
     }
 
-    // Defensive check
     const alreadyInitialized = await checkIfAccountInitialized(walletAddress);
     if (alreadyInitialized) {
       setStatus("✅ Resume already initialized.");
@@ -183,114 +183,150 @@ export default function CredentialForm() {
   };
 
   return (
-    <Paper elevation={4} sx={{ padding: 4, mt: 4 }}>
-      <Typography variant="h6" gutterBottom>
-        Issue a New Credential
-      </Typography>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #eef2ff, #ffffff)",
+        padding: 2,
+      }}
+    >
+      <Paper
+        elevation={6}
+        sx={{
+          padding: 4,
+          maxWidth: 600,
+          width: "100%",
+          borderRadius: 4,
+          boxShadow: "0px 10px 30px rgba(0,0,0,0.1)",
+          backgroundColor: "#fdfdfd",
+        }}
+      >
+        <Typography
+          variant="h5"
+          gutterBottom
+          align="center"
+          sx={{ fontWeight: "bold", color: "#333" }}
+        >
+          🎓 Issue a New Credential
+        </Typography>
 
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              label="Recipient Wallet Address"
-              value={recipient}
-              onChange={(e) => setRecipient(e.target.value)}
-              fullWidth
-              required
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Recipient Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              fullWidth
-              required
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Credential Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              fullWidth
-              required
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="College / Institute Name"
-              value={institute}
-              onChange={(e) => setInstitute(e.target.value)}
-              fullWidth
-              required
-              variant="outlined"
-            />
-          </Grid>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Recipient Wallet Address"
+                value={recipient}
+                onChange={(e) => setRecipient(e.target.value)}
+                fullWidth
+                required
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Recipient Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                fullWidth
+                required
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Credential Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                fullWidth
+                required
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="College / Institute Name"
+                value={institute}
+                onChange={(e) => setInstitute(e.target.value)}
+                fullWidth
+                required
+                variant="outlined"
+              />
+            </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="success"
-              fullWidth
-              disabled={loading || !isFormComplete || !resumeInitialized}
-              startIcon={loading && <CircularProgress size={20} color="inherit" />}
-            >
-              {loading ? "Issuing..." : "Issue Credential"}
-            </Button>
-          </Grid>
-
-          {!resumeInitialized && (
             <Grid item xs={12} sm={6}>
               <Button
-                onClick={initAccount}
+                type="submit"
                 variant="contained"
-                color="primary"
+                color="success"
                 fullWidth
-                disabled={loading}
+                disabled={loading || !isFormComplete || !resumeInitialized}
                 startIcon={loading && <CircularProgress size={20} color="inherit" />}
+                sx={{
+                  textTransform: "none",
+                  fontWeight: "bold",
+                  "&:hover": { transform: "scale(1.02)" },
+                }}
               >
-                {loading ? "Processing..." : "Initialize Resume"}
+                {loading ? "Issuing..." : "Issue Credential"}
               </Button>
             </Grid>
-          )}
-        </Grid>
-      </Box>
 
-      {status && (
-        <Box mt={3}>
-          <Alert
-            severity={
-              status.startsWith("✅") ? "success" :
-              status.startsWith("❌") ? "error" :
-              "info"
-            }
-          >
-            {status}
-          </Alert>
+            {!resumeInitialized && (
+              <Grid item xs={12} sm={6}>
+                <Button
+                  onClick={initAccount}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  disabled={loading}
+                  startIcon={loading && <CircularProgress size={20} color="inherit" />}
+                  sx={{
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    "&:hover": { transform: "scale(1.02)" },
+                  }}
+                >
+                  {loading ? "Processing..." : "Initialize Resume"}
+                </Button>
+              </Grid>
+            )}
+          </Grid>
         </Box>
-      )}
 
-      {issuedCredentials.length > 0 && (
+        {status && (
+          <Box mt={3}>
+            <Alert
+              severity={
+                status.startsWith("✅") ? "success" :
+                status.startsWith("❌") ? "error" :
+                "info"
+              }
+            >
+              {status}
+            </Alert>
+          </Box>
+        )}
+
         <Box mt={4}>
-          <Typography variant="h6">Previously Issued Credentials</Typography>
-          {issuedCredentials.map((cred, index) => (
-            <Paper key={index} sx={{ mt: 2, p: 2 }}>
-              <Typography><strong>Recipient Wallet:</strong> {cred.recipient}</Typography>
-              <Typography><strong>Recipient Name:</strong> {cred.name}</Typography>
-              <Typography><strong>Title:</strong> {cred.title}</Typography>
-              <Typography><strong>Institute:</strong> {cred.institute}</Typography>
-              <Typography><strong>Metadata:</strong> {cred.metadata}</Typography>
-              <Typography><strong>Tx Hash:</strong> {cred.txHash}</Typography>
-              <Typography variant="caption"><strong>Issued At:</strong> {new Date(cred.timestamp).toLocaleString()}</Typography>
-            </Paper>
-          ))}
+          <Button
+            component={Link}
+            to="/history"
+            variant="outlined"
+            color="secondary"
+            fullWidth
+            sx={{
+              textTransform: "none",
+              fontWeight: "medium",
+              "&:hover": { transform: "scale(1.02)" },
+            }}
+          >
+            📜 View Issued Credentials
+          </Button>
         </Box>
-      )}
-    </Paper>
+      </Paper>
+    </Box>
   );
 }

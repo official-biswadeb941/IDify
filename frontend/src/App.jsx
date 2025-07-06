@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/home";
 import Issue from "./Pages/Issue";
 import Profile from "./Pages/profile";
+import History from "./Pages/history";
 import Navbar from "./components/navbar";
 import { useWallet } from "./components/walletcontext";
 
@@ -31,7 +32,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home {...walletProps} />} />
             <Route path="/issue" element={<Issue {...walletProps} />} />
-            <Route path="/profile" element={<Profile {...walletProps} />} />
+            <Route path="/history" element={<History {...walletProps} />} />
           </Routes>
         </main>
       </div>

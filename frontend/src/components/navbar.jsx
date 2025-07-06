@@ -69,7 +69,7 @@ const Navbar = () => {
       <div className={`navbar-links ${open ? 'active' : ''}`}>
         <Link to="/" onClick={() => setOpen(false)}>Home</Link>
         <Link to="/issue" onClick={() => setOpen(false)}>Issue</Link>
-        <Link to="/profile" onClick={() => setOpen(false)}>Profile</Link>
+        <Link to="/history" onClick={() => setOpen(false)}>History</Link>
 
         {/* Connect Wallet via Link */}
         <Link 
